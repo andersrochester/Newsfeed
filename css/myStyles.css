@@ -1,0 +1,301 @@
+/* Assignment 2. Save notes locally for News API */
+/* Anders Rochester, february 2017, FWD16*/
+
+* {box-sizing: border-box;
+margin: 0;
+padding: 0;
+}
+
+body {background-color: #efefef;}
+
+a {text-decoration: none;}
+a:link, a:visited {color: #222;}
+a:hover {color: #666;}
+
+p {
+  font-family: "roboto", sans-serif;
+  margin: auto;
+  padding: 0 15px 10px 15px;
+}
+
+h1 {
+  font-family: "roboto";
+  font-size: 28px;
+  font-weight: 300;
+}
+
+h2 {
+  font-family: 'Lora', 'Times New Roman', Times, serif;
+  margin-top: 5px;
+  padding: 0 15px;
+  font-size: 30px;
+  word-wrap: break-word;
+}
+
+header {
+  height: 38px;
+  margin-top: -50px;
+  width: 120%;
+  position:  fixed;
+  background-color: #999;
+  z-index: 310;
+}
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  max-width: 90%;
+  margin: 0 auto;
+  font-family: sans-serif;
+  color: black;
+}
+
+/* fixed footer */
+#footer {
+   padding-top: 5px;  
+   position:fixed;
+   font-family: "roboto";
+   left:0px;
+   bottom:0px;
+   height:32px;
+   width:100%;
+   background:#999;
+   color: black;
+   text-align: center;
+   text-justify: center;
+   z-index: 500;
+}
+
+/* drop down list */
+.sourceList, .noteList {
+  width: 200px;
+  font-family: "roboto";
+  font-size: 28px;
+  font-weight: 500;
+  list-style-type: none;
+  border-radius: 3px;
+  color: #666;
+}
+
+.api, .notes {
+  background-color: rgba(160, 160, 160, 0.93);
+  padding-left: 20px;
+  width: 200px;
+  margin-left: -20px;
+}
+
+.noteList:hover, .sourceList:hover {
+  color: black;
+}
+
+.sourceList.li {
+  position: absolute;
+  display: inline;
+  margin-left: -20px;
+  z-index: 300;
+  background-color: #444;
+}
+
+
+/* the flex-cards */
+
+/* the wrapper for all the cards */
+.card-wrapper {
+  max-width: 98%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 50px auto;
+}
+
+/*the card it self */
+.card-main {
+  border-radius: 2px;
+  border: 0.5px solid #bbb;
+  background-color: #efefef;
+  display: flex;
+  flex-flow: column;
+  flex-grow: 1;
+  font-size: 1em;
+  width: 30%;
+  margin: 1.5%;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.card-image {
+  align-self: center;
+  width: 100%;
+  border-radius: 3px;
+  height: auto;
+  padding: 0 15px;
+}
+
+.card-header {
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+  align-self: center;
+  justify-content: space-between;
+}
+
+.card-notes {
+  position: absolute;
+  font-family: "roboto", sans-serif;
+  font-size: 16px;
+  padding: 2px 4px;  
+  width: 20em;
+  height: 27em;
+  z-index: 300;
+  background-color: ivory;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/* buttons and style for them */
+.delete {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  z-index: 200;
+}
+
+.print-img, .save-img, .trash-img, .note-img {
+  display: flex;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  z-index: 200;
+  filter: opacity(20%);
+}
+
+.delete-img {
+  margin: 3px 3px auto auto;
+  width: 25px;
+  height: 25px;
+  z-index: 200;
+  filter: opacity(20%);
+}
+
+.clear-notes {
+  position: absolute;
+  width: 200px;
+  height: 20px;
+  background-color: darkred;
+}
+
+.button-wrap {
+  display: flex;
+  flex-flow: row;
+  justify-content: flex-start;
+}
+
+.print-button, .delete-button, .trash-button, .note-button, .save-button, .save-button-notes  {
+  display: flex;
+  margin: 5px 8px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: steelblue;
+}
+
+.save-button {
+  background-color: palevioletred;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  padding-top: 12px;
+  font-family: "roboto", sans-serif;
+  width: 100%;
+  font-size: 20px;
+  align-self: center;
+}
+
+/* UI-classes called by jQuery */
+
+/* colours */
+.hover-color {background-color: cornflowerblue;}
+.save-color {background-color: dodgerblue;}
+.delete-color {background-color: dodgerblue;}
+.done-color {background-color: darkred;}
+.hover-color {background-color: dodgerblue;}
+.hover-color-color {color: rgba(201, 201, 201, 0.8);}
+
+/* fonts */
+.roboto-font {font-family: "roboto"};
+.lora-font {font-family: "Lora"};
+
+/* width */
+.width-wide {width: 48%;}
+.width-normal {width: 30%;}
+
+/* line div */
+.line-1 {
+  border-top: 0.5px solid #999;
+  margin: 15px 0 5px 0;
+  width: 85%;
+  height: auto;
+  align-self: center;
+}
+
+/* additional css to the startscreen */
+
+.delete-img-start {
+  display: flex;
+  margin: auto;
+  width: 25px;
+  height: 25px;
+  z-index: 200;
+  filter: opacity(20%);
+}
+
+.card-main-start {
+  max-width: 90%;
+  width: 50%;
+}
+.card-body-start {
+  margin-bottom: 60px;
+}
+.card-header-start {
+  font-weight: 400;
+  padding-left: 30px;
+  flex-flow: row;
+}
+
+.delete-img:hover, .delete-img-start:hover, .print-img:hover, .trash-img:hover, .note-img:hover, .save-img:hover {
+  filter: opacity(100%);
+}
+
+/* additional css to the notes */
+
+.card-notes-notes {
+  position: relative;
+  width: 90%;
+  height: 250px;
+  margin: 30px auto 20px auto;
+  padding: 10px;
+}
+
+.saved {
+  background-color: #ccc;
+}
+
+/* media make te site responsive*/
+
+@media (max-width: 800px) {
+    .card-main { width: 40%;}
+     h1 { visibility: hidden}
+}
+
+@media (max-width: 600px){
+    .card-main { width: 95%;}
+     h1 { visibility: hidden}
+}
+
+
+
+
+
+
